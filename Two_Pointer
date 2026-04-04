@@ -79,3 +79,73 @@ class Solution {
     }
 }
 
+3. Longest Mountain in Array
+Question - https://leetcode.com/problems/longest-mountain-in-array/description/
+
+Approach 
+1.Traverse the array and check if the current index is a peak.
+2.If it is:
+    -Expand to the left while the sequence is strictly increasing.
+    -Expand to the right while the sequence is strictly decreasing.
+    -Calculate the mountain length.
+    -Skip processed elements to avoid redundant work.
+
+
+
+
+solution - 1st try
+class Solution {
+    public int longestMountain(int[] arr) {
+
+       int maxLen=0, n = arr.length, left=0,right=0;
+
+       for(int i=1;i<n-1;i++){
+
+        if(arr[i]>arr[i-1] && arr[i]>arr[i+1]){
+
+            left=i-1;
+            right=i+1;
+
+            while(left>0 && arr[left]>arr[left-1]) left--;
+            while(right<n-1 && arr[right]>arr[right+1]) right++;
+
+            maxLen = Math.max(maxLen,right-left+1);
+
+        }
+       }
+
+       return maxLen; 
+    }
+}
+
+solution - more optimized
+class Solution {
+    public int longestMountain(int[] arr) {
+
+       int maxLen=0, n = arr.length, left=0,right=0;
+       int i=1; 
+       while(i<n-1){
+
+        if(arr[i]>arr[i-1] && arr[i]>arr[i+1]){
+
+            left=i-1;
+            right=i+1;
+
+            while(left>0 && arr[left]>arr[left-1]) left--;
+            while(right<n-1 && arr[right]>arr[right+1]) right++;
+
+            maxLen = Math.max(maxLen,right-left+1);
+            i=right+1;
+        }
+        else{
+            i++;
+        }
+       }
+
+       return maxLen; 
+    }
+}
+
+TC-O(N)  SC-O(1)
+Even though there are nested loops, each index is visited at most once due to pointer skipping, so overall complexity is linear O(n).
+
