@@ -1,0 +1,23 @@
+1. Subarray Sum Equals K
+
+link - https://leetcode.com/problems/subarray-sum-equals-k/description/
+
+Solution
+
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int res=0,prefSum=0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        for(int i=0;i<nums.length;i++){
+            prefSum+=nums[i];
+            int target = prefSum-k;
+            if(map.containsKey(target)){
+                res+=map.get(target);
+            }
+            map.put(prefSum,map.getOrDefault(prefSum,0)+1);
+        }
+        return res;
+    }
+}
+
