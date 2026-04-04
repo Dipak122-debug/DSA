@@ -22,7 +22,6 @@ class Solution {
                     ans.add(Arrays.asList(nums[i],nums[j],nums[k])); // adding the triplet to the answer list
                     j++;
                     k--;
-
                     // skipping duplicates
                     while(j<k && nums[j]==nums[j-1]) j++; //j<k is important to avoid out of bound exception
                     while(j<k && nums[k]==nums[k+1]) k--;
@@ -35,6 +34,48 @@ class Solution {
         }
 
         return ans;
+    }
+}
+
+
+2. 3Sum Closest
+question - https://leetcode.com/problems/3sum-closest/
+
+solution
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        
+        Arrays.sort(nums);
+
+        int res = nums[0]+nums[1]+nums[2];
+        int l=0,r=0;
+        for(int i=0; i<nums.length-2;i++){
+            if(i>0 && nums[i]==nums[i-1])continue;
+            l=i+1;
+            r=nums.length-1;
+
+            while(l<r){
+                int sum = nums[i]+nums[l]+nums[r];
+                if(sum==target) return target;
+
+                if(Math.abs(target-sum)<Math.abs(target-res)){
+                    res=sum;
+
+                }
+                if (sum < target) {
+                    l++;
+                     while(l<r && nums[l]==nums[l-1]) l++;
+                } else if (sum > target) {
+                    r--;
+                     while(l<r && nums[r]==nums[r+1]) r--;
+                } else {
+                    return target; 
+                }
+            }
+
+        }
+
+        return res;
     }
 }
 
