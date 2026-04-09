@@ -74,6 +74,7 @@ SC - O(n)
 
 OPTIMIZED
 Solution 2
+//TODO - add explanation, need to visit the problem again to understand the solution better
 class Solution {
     public int shortestSubarray(int[] nums, int k) {
         int minLen=Integer.MAX_VALUE;
@@ -110,6 +111,43 @@ class Solution {
         return minLen!=Integer.MAX_VALUE?minLen:-1;
     }
 }
+Explanation of the optimized solution
+The optimized solution uses a deque to maintain the indices of the prefix sums in increasing order.
+
 
 tc - O(n)
 sc - O(n)
+
+4. Maximum Product Subarray
+link - https://leetcode.com/problems/maximum-product-subarray
+
+Solution
+//The idea is to calculate the prefix and suffix product of the array and update the maximum product at each step.
+class Solution {
+    public int maxProduct(int[] nums) {
+        int maxProduct = Integer.MIN_VALUE;
+        int prefPdct=1,suffPdct=1;
+        int n=nums.length;
+        for(int i=0; i<n;i++){
+            //calculate prefix and suffix product
+            prefPdct*=nums[i];
+            suffPdct*=nums[n-i-1];
+            //update max product
+            maxProduct=Math.max(maxProduct,Math.max(prefPdct,suffPdct));
+
+             if(prefPdct==0) prefPdct=1; //if the product becomes 0, we reset it to 1 because we want to start a new subarray from the next element.
+                
+            if( suffPdct==0)  suffPdct=1; //if the product becomes 0, we reset it to 1 because we want to start a new subarray from the next element.
+           
+        }
+
+        return maxProduct;
+    }
+}
+/*
+why we need prefix and suffix product?
+The reason we need both prefix and suffix products is to handle cases where the maximum product subarray may be located at the end of the array. 
+For example, consider the array [-5,-2,0,-4,-10]. The maximum product subarray is [-4,-10], which is located at the end of the array. 
+If we only calculate the prefix product, we would miss this case and return 0 instead of -1. By calculating both prefix and suffix products, 
+we can ensure that we consider all possible subarrays and find the correct maximum product.    
+*/
