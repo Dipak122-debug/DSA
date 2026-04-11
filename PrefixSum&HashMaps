@@ -151,3 +151,39 @@ For example, consider the array [-5,-2,0,-4,-10]. The maximum product subarray i
 If we only calculate the prefix product, we would miss this case and return 0 instead of -1. By calculating both prefix and suffix products, 
 we can ensure that we consider all possible subarrays and find the correct maximum product.    
 */
+
+
+5. count range sum
+link - https://leetcode.com/problems/count-of-range-sum/description/
+
+Solution 1  
+Explanation: 
+prefSum[i] gives us the sum of the subarray from index 0 to index i-1. Therefore,
+prefSum[j] - prefSum[i] gives us the sum of the subarray from index j to index i-1. If this sum is between lower and upper, we increment our count.
+
+class Solution {
+    public int countRangeSum(int[] nums, int lower, int upper) {
+        int n = nums.length;
+        int count=0;
+        long[] prefSum = new long[n+1];
+
+        for(int i=0;i<n;i++){
+            prefSum[i+1]=prefSum[i]+nums[i];
+        }
+
+        for(int i=n;i>0;i--){
+            for(int j=0;j<i;j++){
+                long rangeSum=prefSum[i]-prefSum[j];
+                if(rangeSum >=lower && rangeSum<=upper){
+                    count+=1;
+                }
+            }
+        }
+
+        return count;
+    }
+}
+TC - O(n^2)
+SC - O(n)
+
+
