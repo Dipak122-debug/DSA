@@ -153,7 +153,7 @@ we can ensure that we consider all possible subarrays and find the correct maxim
 */
 
 
-5. count range sum
+5. count range sum - //todo - need to revisit the problem to understand the solution better
 link - https://leetcode.com/problems/count-of-range-sum/description/
 
 Solution 1  
@@ -187,3 +187,33 @@ TC - O(n^2)
 SC - O(n)
 
 
+
+6. Subarray Sums Divisible by K
+link - https://leetcode.com/problems/subarray-sums-divisible-by-k/description/  
+
+Solution
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        
+        int count = 0, n=nums.length, prefSum=0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        for(int i=0;i<n;i++){
+            prefSum+=nums[i];
+            //rem is the remainder when prefSum is divided by k. We take the modulus to handle cases where prefSum is negative, ensuring that rem is always non-negative.
+            int rem=prefSum%k;
+            if(rem<0) rem+=k;
+            //If the same remainder has been seen before, it means that the sum of the elements between the previous index and the current index is divisible by k. 
+            // Therefore, we can add the count of that remainder to our result.
+            if(map.containsKey(rem)) count+=map.get(rem);
+
+            map.put(rem,map.getOrDefault(rem,0)+1) ;
+        }
+        return count;
+    }
+}
+TC - O(n) SC - O(k) because the maximum number of unique remainders is k.
+
+NOTE:
+- for subarray sum == k, we can use the same approach but instead of using the remainder, we can use the prefix sum 
+- and check if the prefix sum - k is present in the map. If it is present, it means that there is a subarray with sum k between the previous index and the current index.
