@@ -217,3 +217,69 @@ TC - O(n) SC - O(k) because the maximum number of unique remainders is k.
 NOTE:
 - for subarray sum == k, we can use the same approach but instead of using the remainder, we can use the prefix sum 
 - and check if the prefix sum - k is present in the map. If it is present, it means that there is a subarray with sum k between the previous index and the current index.
+
+
+
+
+7. Shortest Unsorted Continuous Subarray
+link - https://leetcode.com/problems/shortest-unsorted-continuous-subarray/description/
+
+Solution
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int n=nums.length;
+        int[] sorted = Arrays.copyOf(nums,n);
+        Arrays.sort(sorted);
+        int start=0,end=0;
+        for(int i=0;i<n;i++){
+            if(nums[i]!=sorted[i]){
+                start=i;
+                break;
+            }
+        }
+
+        for(int i=n-1;i>=0;i--){
+            if(nums[i]!=sorted[i]){
+                end=i;
+                break;
+            }
+        }
+
+        return end-start>=0?end-start+1:0;
+    }
+}
+
+optimized solution
+class Solution {        
+    public int findUnsortedSubarray(int[] nums) {
+        int n=nums.length;
+        int max=Integer.MIN_VALUE,min=Integer.MAX_VALUE;
+        int start=-1,end=-1;
+
+        for(int i=0;i<n;i++){
+            if(nums[i]<max){
+                end=i;
+            }else{
+                max=nums[i];
+            }
+        }
+
+        for(int i=n-1;i>=0;i--){
+            if(nums[i]>min){
+                start=i;
+            }else{
+                min=nums[i];
+            }
+        }
+
+        return end-start>=0?end-start+1:0;
+    }
+}
+
+Explanation of the optimized solution
+The optimized solution uses two passes to find the start and end indices of the unsorted subarray. 
+In the first pass, we iterate from left to right and keep track of the maximum value seen so far. 
+If we encounter a value that is less than the maximum, it means that the current index is part of the unsorted subarray, 
+and we update the end index. In the second pass, we iterate from right to left and keep track of the minimum value seen so far.
+If we encounter a value that is greater than the minimum, it means that the current index is part of the unsorted subarray, and we update the start index. 
+Finally, we return the length of the unsorted subarray if it exists, or 0 if the array is already sorted.
