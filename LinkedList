@@ -187,3 +187,99 @@ class Solution {
 }
 
 TC - O(N)  SC -O(1)
+
+7. Remove Duplicates from Sorted List 
+
+link - https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/
+
+solution
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+
+        if(head==null || head.next==null) return head;
+        ListNode prev=head;
+        ListNode curr=head.next;
+
+        while(curr!=null){
+
+            if(curr.val==prev.val){
+                prev.next=curr.next;
+                curr=curr.next;
+            }
+            else{
+                prev=prev.next;
+                curr=curr.next;
+            }
+        }
+
+
+        return head;
+        
+    }
+}
+
+8. Remove Duplicates from Sorted List II
+
+link - https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/description/
+
+solution
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+
+        if(head==null || head.next==null) return head;
+        ListNode prev=head;
+        ListNode curr=head.next;
+
+        while(curr!=null){ // curr!=null because prev.next is depending on curr
+
+            if(curr.val==prev.val){
+                prev.next=curr.next;
+                curr=curr.next;
+            }
+            else{
+                prev=prev.next;
+                curr=curr.next;
+            }
+        }
+
+
+        return head;
+        
+    }
+}
+
+TC-O(N)   SC-O(1)
+
+8. Remove Duplicates from Sorted List II
+link - https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/description/
+
+solution
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        ListNode curr=head;
+
+        while(curr!=null){
+            if(curr.next!=null && curr.val==curr.next.val){
+                int dupVal=curr.val;
+
+                while(curr!=null && curr.val==dupVal){
+                    curr=curr.next;
+                }
+                prev.next=curr;
+            }
+            else{
+                prev=prev.next;
+                curr=curr.next;
+            }
+        }
+
+        return dummy.next;
+    }
+}
+
+TC-O(N)   SC-O(1)
