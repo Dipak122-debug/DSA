@@ -85,3 +85,44 @@ class Solution {
         return head;
     }
 }
+TC-O(n)  SC - O(1)
+
+
+
+4. Linked List Cycle II
+
+link - https://leetcode.com/problems/linked-list-cycle-ii/description/
+
+explanation - https://claude.ai/chat/c9d098d3-fa87-429f-87c7-180caa830628
+
+solution
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+
+        ListNode fast=head,slow=head;
+
+        while(fast!=null && fast.next!=null){
+
+            fast=fast.next.next;
+            slow=slow.next;
+
+            if(slow==fast){
+                slow=head;
+
+                while(slow!=fast){
+                    slow=slow.next;
+                    fast=fast.next;
+                }
+
+                return slow;
+            }
+        }
+
+        return null;
+        
+    }
+}
+
+TC - O(N)   SC - O(1)
+
+
