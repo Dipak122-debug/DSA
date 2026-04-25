@@ -154,6 +154,8 @@ class Solution {
 TC - O(N)  SC-O(1)
     
 
+#-------- dummy Node technique -------------    
+
 6. Merge Two Sorted Lists
 
 link - https://leetcode.com/problems/merge-two-sorted-lists/description/
