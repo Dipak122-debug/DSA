@@ -283,3 +283,106 @@ class Solution {
 }
 
 TC-O(N)   SC-O(1)
+
+
+
+9. Design a LRU Cache
+link - https://leetcode.com/problems/lru-cache/description/
+
+
+solution
+
+//Define a Doubly Linked List and using DLL to add and delete values in O(1) time.
+class ListNode{
+
+    int key;
+    int val;
+    ListNode prev;
+    ListNode next;
+
+    ListNode(int key,int val){
+        this.key = key;
+        this.val = val;
+    }
+}
+
+
+class LRUCache {
+
+    // using to get corresponding in O(1) time.
+    Map<Integer, ListNode> map; 
+    ListNode head;
+    ListNode tail;
+    int capacity;
+
+    public LRUCache(int capacity) {
+
+        map = new HashMap<>();
+        head = new ListNode(-1,-1);
+        tail = new ListNode(-1,-1);
+
+        head.next = tail;
+        tail.prev = head;
+        this.capacity = capacity; 
+
+    }
+    
+    public int get(int key) {       
+        if(!map.containsKey(key)){
+            return -1;
+        }
+        ListNode node = map.get(key);
+        remove(node);
+        add(node);
+        return node.val;
+    }
+    
+    public void put(int key, int value) {
+        if(map.containsKey(key)){
+            ListNode oldNode = map.get(key);
+            remove(oldNode);
+        }
+
+        ListNode newNode = new ListNode(key,value);
+        add(newNode);
+        map.put(key, newNode);
+        if(map.size()>capacity){
+            ListNode prevNode = tail.prev;
+            remove(prevNode);
+            map.remove(prevNode.key);
+        }
+
+    }
+
+    public void add(ListNode node){
+
+        ListNode nextNode = head.next;
+        node.next = nextNode;
+        nextNode.prev=node;
+        node.prev=head;
+        head.next=node;        
+    }
+
+    public void remove(ListNode node){
+
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+}
+
+
+Explanation 
+
+HEAD <-> TAIL
+Map = {}
+put(1,1) : Map={1:Node(1,1)}, HEAD <-> Node(1,1) <-> TAIL
+put(2,2) : Map={1:Node(1,1), 2:Node(2,2)}, HEAD <-> Node(2,2) <-> Node(1,1) <-> TAIL
+get(1)   : Map={1:Node(1,1), 2:Node(2,2)}, HEAD <-> Node(1,1) <-> Node(2,2) <-> TAIL  (1 is most recently used so it is moved to the front)
+put(3,3) : Map={1:Node(1,1), 2  :Node(2,2), 3:Node(3,3)}, HEAD <-> Node(3,3) <-> Node(1,1) <-> Node(2,2) <-> TAIL (2 is least recently used so it is removed)
+get(2)   : Map={1:Node(1,1), 3:Node(3,3)}, HEAD <-> Node(3,3) <-> Node(1,1) <-> TAIL (2 is not found)
+put(4,4) : Map={1:Node(1,1), 3:Node(3,3), 4:Node(4,4)}, HEAD <-> Node(4,4) <-> Node(3,3) <-> Node(1,1) <-> TAIL (1 is least recently used so it is removed)
+get(1)   : Map={3:Node(3,3), 4:Node(4,4)}, HEAD <-> Node(4,4) <-> Node(3,3) <-> TAIL (1 is not found)
+get(3)   : Map={3:Node(3,3), 4:Node(4,4)}, HEAD <-> Node(3,3) <-> Node(4,4) <-> TAIL (3 is most recently used so it is moved to the front)
+get(4)   : Map={3:Node(3,3), 4:Node(4,4)}, HEAD <-> Node(4,4) <-> Node(3,3) <-> TAIL (4 is most recently used so it is moved to the front)
+
+TC - O(1)  SC - O(capacity)
