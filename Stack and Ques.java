@@ -189,6 +189,49 @@ A monotonic stack is just a normal stack with one rule:
  -Elements in the stack are always maintained in a strictly increasing or decreasing order.
  -When a new element violates that order, you pop until the order is restored, then push.
 
+// Todo - Next Greater Element
+
+
+
+
+problem - 2
+Largest Rectangle in Histogram
+link - https://leetcode.com/problems/largest-rectangle-in-histogram/description/
+
+solution
+
+class Solution {
+    public static int getMaxArea(int arr[]) {
+       
+       Stack<Integer> st = new Stack<Integer>();
+       st.push(-1);
+       
+       int ans = 0;
+       
+       for(int i=0; i<arr.length;i++){
+       
+           while(st.size() > 1 && arr[i]< arr[st.peek()]){
+               
+               int elemIdx = st.pop();
+               
+               int lb = st.peek();
+               
+               ans = Math.max(ans,(i-lb-1)*arr[elemIdx]);
+           }
+           
+           st.push(i);
+       }
+       
+       while(st.size() > 1){
+           int elemIdx = st.pop();
+           int lb = st.peek();
+           ans=Math.max(ans,(arr.length-lb-1)*arr[elemIdx]);
+       }
+       
+       return ans;
+        
+    }
+}
 
 
 

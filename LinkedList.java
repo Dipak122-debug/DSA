@@ -154,7 +154,13 @@ class Solution {
 TC - O(N)  SC-O(1)
     
 
-#-------- dummy Node technique -------------    
+#-------- dummy Node technique -------------   
+
+/*
+Use the dummy node (or sentinel) technique in a Linked List (LL) when the head of your list is subject to change, 
+ removal, or re-assignment. It acts as a stable placeholder before the actual head, eliminating the need to write separate, 
+ clunky edge-case logic for the very first element. 
+ */
 
 6. Merge Two Sorted Lists
 
@@ -285,7 +291,6 @@ class Solution {
 TC-O(N)   SC-O(1)
 
 
-
 9. Design a LRU Cache
 link - https://leetcode.com/problems/lru-cache/description/
 
@@ -372,6 +377,7 @@ class LRUCache {
 
 
 Explanation 
+
 
 HEAD <-> TAIL
 Map = {}
