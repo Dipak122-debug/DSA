@@ -378,7 +378,6 @@ class LRUCache {
 
 Explanation 
 
-
 HEAD <-> TAIL
 Map = {}
 put(1,1) : Map={1:Node(1,1)}, HEAD <-> Node(1,1) <-> TAIL
