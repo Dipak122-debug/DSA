@@ -14,7 +14,7 @@ solution
 
         for(int i=2;i<n;i++){
             dp[i]=cost[i]+Math.min(dp[i-1],dp[i-2]); // minimum cost to stand stair i 
-            //cost[i] added because in quetion it says - where cost[i] is the cost of ith step on a staircase
+            //cost[i] added because in question it says - where cost[i] is the cost of ith step on a staircase
             // and we can come from i-1 or i-2 position
         } 
 
@@ -65,7 +65,7 @@ link - https://leetcode.com/problems/house-robber/description/
 class Solution {
     public int rob(int[] nums) {
         int n = nums.length;
-        if (n == 0) return 0;
+        
         if (n == 1) return nums[0];
 
         int[] dp = new int[n];
@@ -278,3 +278,51 @@ class Solution {
         return dp[n];
     }
 }
+
+7. Coin change
+link - https://leetcode.com/problems/coin-change/description/
+
+Recursive approach  
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        if(amount==0) return 0; // if the amount is 0, we need 0 coins
+        if(amount<0) return -1; // if the amount is negative, it's not possible to make change
+
+        int minCoins = Integer.MAX_VALUE;
+
+        for(int coin : coins){
+            int res = coinChange(coins, amount - coin); // recursively call for the remaining amount after using one coin
+
+            if(res>=0 && res<minCoins){ // if the result is valid and less than the current minimum, update minCoins
+                minCoins = res + 1; // add 1 to account for the coin we just used
+            }
+        }
+
+        return minCoins == Integer.MAX_VALUE ? -1 : minCoins; // if minCoins is still Integer.MAX_VALUE, it means we couldn't make change, so return -1
+    }
+}
+
+TC - O(S^n) where S is the amount and n is the number of coins (worst case)
+SC - O(S) for the recursion stack (worst case)
+
+Dynamic programming approach (bottom-up)
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[] dp = new int[amount+1];
+        Arrays.fill(dp, Integer.MAX_VALUE); // initialize dp array with Integer.MAX_VALUE to indicate that initially, we assume all amounts are impossible to make change for   
+        dp[0] = 0; // base case: 0 coins needed to make amount 0
+
+        for(int i=1; i<=amount; i++){
+            for(int coin : coins){
+                if(coin <= i && dp[i - coin] != Integer.MAX_VALUE){ // if the coin value is less than or equal to the current amount and the subproblem has a solution
+                    dp[i] = Math.min(dp[i], dp[i-coin] + 1); // update dp[i] with the minimum of its current value and the value of dp[i-coin] + 1 (which accounts for using one coin)
+                }
+            }
+        }
+
+        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount]; // if dp[amount] is still Integer.MAX_VALUE, it means we couldn't make change, so return -1
+}
+
+TC - O(n*S) where n is the number of coins and S is the amount
+SC - O(S) for the dp array
