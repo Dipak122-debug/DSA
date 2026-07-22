@@ -283,3 +283,59 @@ If we encounter a value that is less than the maximum, it means that the current
 and we update the end index. In the second pass, we iterate from right to left and keep track of the minimum value seen so far.
 If we encounter a value that is greater than the minimum, it means that the current index is part of the unsorted subarray, and we update the start index. 
 Finally, we return the length of the unsorted subarray if it exists, or 0 if the array is already sorted.
+
+8. Longest substring without repeating characters
+link - https://leetcode.com/problems/longest-substring-without-repeating-characters/    
+solution
+approach 1 - sliding window with HashSet
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int left=0,right=0,maxLen=0;
+        HashSet<Character> set = new HashSet<>();
+
+        while(right<n){
+            char ch = s.charAt(right);
+            if(!set.contains(ch)){
+                set.add(ch);
+                maxLen=Math.max(maxLen,right-left+1);
+                right++;
+            }else{
+                set.remove(s.charAt(left));
+                left++;
+            }
+        }
+
+        return maxLen;
+    }
+}
+
+explanation of the solution
+The solution uses a sliding window approach with two pointers, left and right, to keep track of the current substring without repeating characters. A HashSet is used to store the characters in the current window.    
+
+TC - O(n) SC - O(n) because we are using a HashSet to store the characters in the current window. In the worst case, all characters in the string are unique, and we will have to store all of them in the HashSet.
+
+appproach 2 - sliding window with HashMap
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int left=0,right=0,maxLen=0;
+        HashMap<Character,Integer> map = new HashMap<>();
+
+        while(right<n){
+            char ch = s.charAt(right);
+            if(map.containsKey(ch)){
+                left=Math.max(left,map.get(ch)+1); // we update the left pointer to the index after the last occurrence of the repeating character. We use Math.max to ensure that left only moves forward and does not go backward, which could happen if the last occurrence of the character is before the current left pointer.
+            }
+            map.put(ch,right);
+            maxLen=Math.max(maxLen,right-left+1);
+            right++;
+        }
+
+        return maxLen;
+    }
+}
+explanation of the solution
+The solution uses a sliding window approach with two pointers, left and right, to keep track of the current substring without repeating characters. A HashMap is used to store the characters in the current window along with their indices. 
+When a repeating character is found, we update the left pointer to the index after the last occurrence of that character. This ensures that we always have a substring without repeating characters.
+TC - O(n) SC - O(n) because we are using a HashMap to store the characters and their indices in the current window. In the worst case, all characters in the string are unique, and we will have to store all of them in the HashMap.   

@@ -372,6 +372,7 @@ class LRUCache {
 
         node.prev.next = node.next;
         node.next.prev = node.prev;
+
     }
 }
 
