@@ -39,6 +39,7 @@ class Solution {
     }
 }
 
+
 3. shortest-subarray-with-sum-at-least-k
 
 link -  https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/description/
@@ -339,3 +340,69 @@ explanation of the solution
 The solution uses a sliding window approach with two pointers, left and right, to keep track of the current substring without repeating characters. A HashMap is used to store the characters in the current window along with their indices. 
 When a repeating character is found, we update the left pointer to the index after the last occurrence of that character. This ensures that we always have a substring without repeating characters.
 TC - O(n) SC - O(n) because we are using a HashMap to store the characters and their indices in the current window. In the worst case, all characters in the string are unique, and we will have to store all of them in the HashMap.   
+
+
+9. Longest Consecutive Sequence
+
+link - https://leetcode.com/problems/longest-consecutive-sequence/description/
+
+solution
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for(int num:nums){
+            set.add(num);
+        }
+
+        int maxLen=0;
+        for(int num:set){
+            if(!set.contains(num-1)){
+                int currNum=num;
+                int currLen=1;
+
+                while(set.contains(currNum+1)){
+                    currNum++;
+                    currLen++;
+                }
+
+                maxLen=Math.max(maxLen,currLen);
+            }
+        }
+
+        return maxLen;
+    }
+}
+
+TC - O(n) SC - O(n) because we are using a HashSet to store the unique elements from the input array. In the worst case, all elements in the array are unique, 
+and we will have to store all of them in the HashSet.
+
+
+10. product of array except self
+link - https://leetcode.com/problems/product-of-array-except-self/description/
+solution
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n=nums.length;
+        int[] res = new int[n];
+        res[0]=1;
+
+        for(int i=1;i<n;i++){
+            res[i]=res[i-1]*nums[i-1];
+        }
+
+        int right=1;
+        for(int i=n-1;i>=0;i--){
+            res[i]*=right;
+            right*=nums[i];
+        }
+
+        return res;
+    }
+}
+
+explanation of the solution
+The solution uses two passes to calculate the product of all elements except self. In the first pass, we calculate the prefix product for each element and store it in the result array. 
+The prefix product for an element at index i is the product of all elements to the left of i. In the second pass, we calculate the suffix product for each element and multiply it with the 
+corresponding prefix product in the result array. The suffix product for an element at index i is the product of all elements to the right of i. By multiplying the prefix and suffix products, 
+we get the final result for each element.
+TC - O(n) SC - O(1) because we are using the result array to store the final output, and we are not using any additional data structures that scale with the input size. The space used for the result array does not count towards extra space complexity since it is required for the output. 
