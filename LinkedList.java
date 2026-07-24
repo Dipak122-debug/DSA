@@ -31,7 +31,9 @@ class Solution {
     public ListNode middleOfTheLinkedList(ListNode head) {
         
         ListNode fast=head, slow = head;
-        while(fast!=null && fast.next!=null){
+        // why fast!=null && fast.next!=null because we are moving fast pointer by 2 steps so we need to check 
+        // if fast is not null and fast.next is not null to avoid null pointer exception
+        while(fast!=null && fast.next!=null){ 
             fast=fast.next.next;
             slow=slow.next;
         }
@@ -52,6 +54,8 @@ public class Solution {
 
         ListNode fast=head, slow = head;
 
+        // why fast!=null && fast.next!=null because we are moving fast pointer by 2 steps so we need to check 
+        // if fast is not null and fast.next is not null to avoid null pointer exception
         while(fast!=null && fast.next!=null){
 
             fast=fast.next.next;
@@ -80,10 +84,12 @@ class Solution {
 
         //example [1,2,3] and n=3 so fast is moving 3 times so fast = null - in that case always head needs to be removed 
         // thats why return head.next. Edge case
+        // if fast is null, it means we need to remove the head node, so we return head.next
         if (fast == null) {
             return head.next;
         }
 
+        // Move both fast and slow pointers until fast reaches the end of the list. At this point, slow will be just before the node to be removed.
         while(fast.next!=null){
             fast=fast.next;
             slow=slow.next;
@@ -96,8 +102,13 @@ class Solution {
 }
 TC-O(n)  SC - O(1)
 
+explanation of the above code -
+1. We use two pointers, fast and slow, both initialized to the head of the linked list. The fast pointer is moved n steps ahead of the slow pointer. This creates a gap of n nodes between the two pointers.
+2. If the fast pointer becomes null after moving n steps, it means we need to remove the head node. In this case, we return head.next.
+3. If the fast pointer is not null, we move both pointers one step at a time until the fast pointer reaches the end of the list. At this point, the slow pointer will be just before the node that needs to be removed.
+4. We then update the next pointer of the slow node to skip the nth node from the end, effectively removing it from the list. Finally, we return the head of the modified list.
 
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 4. Linked List Cycle II
 
 link - https://leetcode.com/problems/linked-list-cycle-ii/description/
