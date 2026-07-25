@@ -66,9 +66,9 @@ class Solution {
     public int rob(int[] nums) {
         int n = nums.length;
         
-        if (n == 1) return nums[0];
+        if (n == 1) return nums[0]; //n == 1, only one house, rob it
 
-        int[] dp = new int[n];
+        int[] dp = new int[n]; // dp[i] will hold the maximum amount of money that can be robbed from the first i houses
         dp[0] = nums[0];
         dp[1] = Math.max(nums[0], nums[1]);
 
@@ -214,9 +214,9 @@ class Solution {
                 // then we can conclude that the substring from j to i is also a palindrome.  
 
                 if(s.charAt(i)==s.charAt(j) && ( i-j<=2 || dp[j+1][i-1])){ 
-                        dp[j][i]=true;
+                        dp[j][i]=true; // s[j..i] is a palindrome
 
-                        if(i-j+1>maxLen){
+                        if(i-j+1>maxLen){ //update the maximum length and the starting and ending indices of the longest palindrome found so far
                             maxLen=i-j+1;
                             l=j;
                             r=i;

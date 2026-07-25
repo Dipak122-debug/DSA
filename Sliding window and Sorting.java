@@ -83,6 +83,7 @@ class Solution {
     }
 }
 
+
 TC - O(nlogk) for creating the frequency map and adding elements to the min-heap. Overall, the time complexity is O(nlogk).
 why logk --> Because we are adding elements to the min-heap and removing the smallest element when the size exceeds k, which takes O(logk) time.
 

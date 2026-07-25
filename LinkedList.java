@@ -451,7 +451,7 @@ class LRUCache {
         map.put(key, newNode);
         if(map.size()>capacity){
             ListNode prevNode = tail.prev;
-            remove(prevNode);
+            remove(prevNode); // --
             map.remove(prevNode.key);
         }
 
