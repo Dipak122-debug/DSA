@@ -126,4 +126,44 @@ class Solution {
     }
 }
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+5. Path SUM 2
+link - https://leetcode.com/problems/path-sum-ii/description/
+
+class Solution {
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+
+        List<List<Integer>> res = new ArrayList<>();
+        List<Integer> slate = new ArrayList<>();
+        int sum = 0;
+        helper(root,targetSum,sum,slate,res);
+        return res;
+        
+    }
+
+    public void helper(TreeNode root, int targetSum, int sum, List<Integer> slate, List<List<Integer>> res){
+
+        if(root==null) return;
+
+        sum=sum+root.val;
+
+        slate.add(root.val);
+
+        if(root.left==null && root.right==null){
+            if(sum==targetSum){
+                res.add(new ArrayList<>(slate));
+            }
+        }
+
+        if(root.left!=null) helper(root.left,targetSum,sum,slate,res);
+        if(root.right!=null) helper(root.right,targetSum,sum,slate,res);
+        
+        slate.remove(slate.size()-1); 
+
+    }
+
+
+}
+
 
