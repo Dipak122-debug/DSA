@@ -45,7 +45,7 @@ solution
 class Solution {
     public int threeSumClosest(int[] nums, int target) {
         
-        Arrays.sort(nums);
+        Arrays.sort(nums); 
 
         int res = nums[0]+nums[1]+nums[2];
         int l=0,r=0;
